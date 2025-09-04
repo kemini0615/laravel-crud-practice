@@ -15,11 +15,11 @@ class StoreCustomerRequest extends FormRequest
     {
         return [
             'image' => ['nullable'],
-            'first_name' => ['required', 'max:255', 'string'],
-            'last_name' => ['required', 'max:255', 'string'],
-            'email' => ['required', 'email'],
-            'phone' => ['required', 'string'],
-            'bank_account_number' => ['required', 'numeric'],
+            'first_name' => ['required', 'string', 'max:255'],
+            'last_name' => ['required', 'string', 'max:255'],
+            'email' => ['required', 'email', 'max:255'],
+            'phone' => ['required', 'string', 'max:20'],
+            'bank_account_number' => ['required', 'string', 'max:20'],
             'about' => ['nullable', 'string', 'max:1000'],
         ];
     }
