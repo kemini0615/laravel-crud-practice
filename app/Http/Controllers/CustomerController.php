@@ -31,6 +31,14 @@ class CustomerController extends Controller
     {
         $customer = new Customer();
 
+        // Optional.
+        if ($request->hasFile('image')) {
+            $image = $request->file('image');
+            $storedFileName = $image->store('', 'public');
+            $filePath = '/uploads/' . $storedFileName;
+            $customer->image = $filePath;
+        }
+
         $customer->first_name = $request->first_name;
         $customer->last_name = $request->last_name;
         $customer->email = $request->email;
