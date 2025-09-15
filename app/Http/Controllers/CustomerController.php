@@ -4,7 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\StoreCustomerRequest;
 use App\Models\Customer;
-use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Storage;
 
 class CustomerController extends Controller
 {
@@ -62,18 +62,39 @@ class CustomerController extends Controller
 
     /**
      * Show the form for editing the specified resource.
+     *
+     * 모델 클래스 타입 힌트를 통해 모델 바인딩(모델 인스턴스 주입)이 가능해진다.
      */
-    public function edit(string $id)
+    public function edit(Customer $customer)
     {
-        //
+        return view('customer.edit', compact('customer'));
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, string $id)
+    public function update(StoreCustomerRequest $request, Customer $customer)
     {
-        //
+        if ($request->hasFile('image')) {
+            // 기존 이미지 파일 삭제하기.
+            Storage::disk('public')->delete($customer->image);
+
+            $image = $request->file('image');
+            $storedFileName = $image->store('', 'public');
+            $filePath = '/uploads/' . $storedFileName;
+            $customer->image = $filePath;
+        }
+
+        $customer->first_name = $request->first_name;
+        $customer->last_name = $request->last_name;
+        $customer->email = $request->email;
+        $customer->phone = $request->phone;
+        $customer->bank_account_number = $request->bank_account_number;
+        $customer->about = $request->about;
+
+        $customer->save();
+
+        return redirect()->route('customers.index');
     }
 
     /**

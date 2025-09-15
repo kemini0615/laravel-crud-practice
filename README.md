@@ -18,8 +18,9 @@
 -   `@csrf`는 폼에 CSRF 토큰을 추가할 때 사용한다.
 -   `@foreach ($items => $item)`는 **루프(Loop)**다.
     -   루프 내부에서 `{{ $loop->iteration }}`를 통해서 **1부터 시작하는** 반복 회수를 반환할 수 있다.
+-   `@method()`는 리퀘스트의 메소드를 `PUT`, `PATCH`, `DELETE` 등으로 설정할 때 사용한다.
 
-## PHP
+## PHP & Laravel
 
 ### 헬퍼 함수
 
@@ -29,6 +30,8 @@
 ### 컨트롤러
 
 -   `compact()` 함수는 변수 이름을 문자열로 받아, 그 이름과 동일한 키와 값을 가진 연관 배열(associative array)을 만들어 반환한다.
+
+-   컨트롤러 액션 메소드의 파라미터에 **모델 클래스**로 **타입 힌트**를 설정(`Customer $customer`)하면, Laravel이 URL에 입력된 동적인 값(예: id)을 활용해 해당 모델의 인스턴스를 찾아서 자동으로 할당해주는 '**라우트 모델 바인딩(Route Model Binding)**'이 발생한다.
 
 ## 커맨드
 
