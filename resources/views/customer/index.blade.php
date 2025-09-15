@@ -28,40 +28,38 @@
                     </div>
                 </div>
                 </div>
-
             </div>
             <div class="card-body">
                 <table class="table table-bordered" style="border: 1px solid #dddddd">
                     <thead>
                         <tr>
-                        <th scope="col">#</th>
-                        <th scope="col">First Name</th>
-                        <th scope="col">Last Name</th>
-                        <th scope="col">Date of Birth</th>
-                        <th scope="col">Phone Number</th>
-                        <th scope="col">Email</th>
-                        <th scope="col">BAN</th>
-                        <th scope="col">Action</th>
+                            <th scope="col">#</th>
+                            <th scope="col">First Name</th>
+                            <th scope="col">Last Name</th>
+                            <th scope="col">Phone Number</th>
+                            <th scope="col">Email</th>
+                            <th scope="col">Bank Account Number</th>
+                            <th scope="col">Action</th>
                         </tr>
                     </thead>
                     <tbody>
+                        @foreach ($customers as $customer)
                         <tr>
-                        <th scope="row">1</th>
-                        <td>Jhone</td>
-                        <td>Deo</td>
-                        <td>7-7-2000</td>
-                        <td>881-6929-0200</td>
-                        <td>jhone@gmail.com</td>
-                        <td>1902982829282</td>
-                        <td>
-                            <a href="" style="color: #2c2c2c;" class="ms-1 me-1"><i class="far fa-edit"></i></a>
-                            <a href="/customer-details.html" style="color: #2c2c2c;" class="ms-1 me-1"><i class="far fa-eye"></i></a>
-                            <a href="" style="color: #2c2c2c;" class="ms-1 me-1"><i class="fas fa-trash-alt"></i></a>
-                        </td>
+                            <th scope="row">{{ $loop->iteration }}</th>
+                            <td>{{ $customer->first_name }}</td>
+                            <td>{{ $customer->last_name }}</td>
+                            <td>{{ $customer->phone }}</td>
+                            <td>{{ $customer->email }}</td>
+                            <td>{{ $customer->bank_account_number }}</td>
+                            <td>
+                                <a href="" style="color: #2c2c2c;" class="ms-1 me-1"><i class="far fa-edit"></i></a>
+                                <a href="/customer-details.html" style="color: #2c2c2c;" class="ms-1 me-1"><i class="far fa-eye"></i></a>
+                                <a href="" style="color: #2c2c2c;" class="ms-1 me-1"><i class="fas fa-trash-alt"></i></a>
+                            </td>
                         </tr>
-
+                        @endforeach
                     </tbody>
-                    </table>
+                </table>
             </div>
         </div>
     </div>
