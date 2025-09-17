@@ -55,9 +55,9 @@ class CustomerController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(string $id)
+    public function show(Customer $customer)
     {
-        //
+        return view('customer.show', compact('customer')); // compact('customer') 함수는 ['customer' => $customer]를 반환한다.
     }
 
     /**
