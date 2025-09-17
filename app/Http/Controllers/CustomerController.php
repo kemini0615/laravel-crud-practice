@@ -100,8 +100,11 @@ class CustomerController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(string $id)
+    public function destroy(Customer $customer)
     {
-        //
+        Storage::disk('public')->delete($customer->image);
+        $customer->delete();
+
+        return redirect()->route('customers.index');
     }
 }
