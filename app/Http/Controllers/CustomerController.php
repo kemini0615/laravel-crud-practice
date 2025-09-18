@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\StoreCustomerRequest;
 use App\Models\Customer;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 
 class CustomerController extends Controller
@@ -11,9 +12,15 @@ class CustomerController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(Request $request)
     {
-        $customers = Customer::all();
+        $customers = Customer::when($request->has('keyword'), function ($query) use ($request) {
+            $query->where('first_name', 'LIKE', "%$request->keyword%")
+                ->orWhere('last_name', 'LIKE', "%$request->keyword%")
+                ->orWhere('phone', 'LIKE', "%$request->keyword%")
+                ->orWhere('email', 'LIKE', "%$request->keyword%");
+        })->get();
+
         return view('customer.index', compact('customers'));
     }
 

@@ -11,10 +11,10 @@
                     <a href="{{ route('customers.create') }}" class="btn" style="background-color: #4643d3; color: white;"><i class="fas fa-plus"></i> Create Customer</a>
                 </div>
                 <div class="col-md-8">
-                    <form action="">
+                    <form action="{{ route('customers.index') }}" method="GET">
                         <div class="input-group mb-3">
-                            <input type="text" class="form-control" placeholder="Search anything..." aria-describedby="button-addon2">
-                            <button class="btn btn-outline-secondary" type="submit" id="button-addon2">Search</button>
+                            <input type="text" name="keyword" class="form-control" placeholder="Search anything..." aria-describedby="button-addon2">
+                            <button type="submit" class="btn btn-outline-secondary" id="button-addon2">Search</button>
                         </div>
                     </form>
                 </div>
