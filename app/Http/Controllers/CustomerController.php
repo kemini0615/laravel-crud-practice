@@ -117,9 +117,50 @@ class CustomerController extends Controller
      */
     public function destroy(Customer $customer)
     {
-        Storage::disk('public')->delete($customer->image);
-        $customer->delete();
+        $customer->delete(); // 데이터를 DB에서 실제로 제거하지 않는 소프트 딜리트.
 
         return redirect()->route('customers.index');
+    }
+
+    public function trash(Request $request)
+    {
+        if ($request->has('order') && $request->order == 'asc') {
+            $order = 'ASC';
+        } else {
+            $order = 'DESC';
+        }
+
+        $customers = Customer::when($request->has('keyword'), function ($query) use ($request) {
+            $query->where('first_name', 'LIKE', "%$request->keyword%")
+                ->orWhere('last_name', 'LIKE', "%$request->keyword%")
+                ->orWhere('phone', 'LIKE', "%$request->keyword%")
+                ->orWhere('email', 'LIKE', "%$request->keyword%");
+        })
+            ->orderBy('id', $order)
+            ->onlyTrashed() // 소프트 딜리트된 데이터만 가져온다.
+            ->get();
+
+        return view('customer.trash', compact('customers'));
+    }
+
+    public function restore(int $id)
+    {
+        // withTrashed() 메소드를 통해 '소프트 딜리트' 처리된 데이터를 조회할 수 있다.
+        $customer = Customer::withTrashed()->findOrFail($id);
+
+        $customer->restore(); // '소프트 딜리트' 처리된 데이터 복구.
+
+        return redirect()->back();
+    }
+
+    public function forceDestroy(int $id)
+    {
+        // withTrashed() 메소드를 통해 '소프트 딜리트' 처리된 데이터를 조회할 수 있다.
+        $customer = Customer::withTrashed()->findOrFail($id);
+
+        Storage::disk('public')->delete($customer->image);
+        $customer->forceDelete(); // 데이터를 DB에서 실제로 제거하는 하드 딜리트.
+
+        return redirect()->back();
     }
 }

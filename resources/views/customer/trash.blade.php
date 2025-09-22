@@ -3,14 +3,14 @@
 @section('content')
 <div class="row justify-content-center mt-5">
     <div class="col-md-8">
-        <h3>Customers</h3>
+        <h3>Trash</h3>
         <div class="card">
             <div class="card-header">
                 <div class="row">
                     <div class="col-md-2">
-                        <a href="{{ route('customers.create') }}" class="btn" style="background-color: #4643d3; color: white;"><i class="fas fa-plus"></i> Create Customer</a>
+                        <a href="{{ route('customers.index') }}" class="btn" style="background-color: #4643d3; color: white;"><i class="fas fa-chevron-left"></i> Back</a>
                     </div>
-                    <div class="col-md-6">
+                    <div class="col-md-8">
                         <form action="{{ route('customers.index') }}" method="GET">
                             <div class="input-group mb-3">
                                 <input type="text" name="keyword" class="form-control" placeholder="Search anything..." aria-describedby="button-addon2">
@@ -27,9 +27,6 @@
                                 </select>
                             </div>
                         </form>
-                    </div>
-                    <div class="col-md-2 text-end">
-                        <a href="{{ route('customers.trash') }}" class="btn btn-dark"><i class="fas fa-trash-alt"></i> Trash</a>
                     </div>
                 </div>
             </div>
@@ -56,10 +53,9 @@
                             <td>{{ $customer->email }}</td>
                             <td>{{ $customer->bank_account_number }}</td>
                             <td>
-                                <a href="{{ route('customers.edit', $customer->id) }}" style="color: #2c2c2c;" class="ms-1 me-1"><i class="far fa-edit"></i></a>
-                                <a href="{{ route('customers.show', $customer->id) }}" style="color: #2c2c2c;" class="ms-1 me-1"><i class="far fa-eye"></i></a>
-                                <a href="javascript:;" onclick="if (confirm('Do you really want to delete this customer?')) { document.getElementById('form-{{$customer->id}}').submit(); }" style="color: #2c2c2c;" class="ms-1 me-1"><i class="fas fa-trash-alt"></i></a>
-                                <form id="form-{{ $customer->id }}" action="{{ route('customers.destroy', $customer->id) }}" method="POST">
+                                <a href="{{ route('customers.trash.restore', $customer->id) }}" style="color: #2c2c2c;" class="ms-1 me-1">Restore</a>
+                                <a href="javascript:;" onclick="if (confirm('Do you really want to delete this customer?')) { document.getElementById('form-{{$customer->id}}').submit(); }" style="color: #2c2c2c;" class="ms-1 me-1">Delete</a>
+                                <form id="form-{{ $customer->id }}" action="{{ route('customers.trash.destroy', $customer->id) }}" method="POST">
                                     @csrf
                                     @method('DELETE')
                                 </form>
