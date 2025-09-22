@@ -53,8 +53,8 @@
                             <td>{{ $customer->email }}</td>
                             <td>{{ $customer->bank_account_number }}</td>
                             <td>
-                                <a href="{{ route('customers.trash.restore', $customer->id) }}" style="color: #2c2c2c;" class="ms-1 me-1">Restore</a>
-                                <a href="javascript:;" onclick="if (confirm('Do you really want to delete this customer?')) { document.getElementById('form-{{$customer->id}}').submit(); }" style="color: #2c2c2c;" class="ms-1 me-1">Delete</a>
+                                <a href="{{ route('customers.trash.restore', $customer->id) }}" style="color: #2c2c2c;" class="ms-1 me-1"><i class="fas fa-redo"></i></a>
+                                <a href="javascript:;" onclick="if (confirm('Do you really want to delete this customer?')) { document.getElementById('form-{{$customer->id}}').submit(); }" style="color: #2c2c2c;" class="ms-1 me-1"><i class="fas fa-trash-alt"></i></a>
                                 <form id="form-{{ $customer->id }}" action="{{ route('customers.trash.destroy', $customer->id) }}" method="POST">
                                     @csrf
                                     @method('DELETE')
