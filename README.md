@@ -4,6 +4,7 @@
 
 -   `asset()` 함수는 다큐먼트 루트인 `/public/` 디렉토리에 대한 URL(절대 경로)을 반환한다.
 -   `route()` 함수는 '라우트의 경로'를 직접 입력하지 않고, '라우트의 이름'으로 절대 경로를 반환한다.
+-   `request()` 함수는 현재의 HTTP 요청 객체(`Illuminate\Http\Request`)를 반환한다.
 
 ### 밸리데이션
 
@@ -19,6 +20,7 @@
 -   `@foreach ($items => $item)`는 **루프(Loop)**다.
     -   루프 내부에서 `{{ $loop->iteration }}`를 통해서 **1부터 시작하는** 반복 회수를 반환할 수 있다.
 -   `@method()`는 리퀘스트의 메소드를 `PUT`, `PATCH`, `DELETE` 등으로 설정할 때 사용한다.
+-   `@selected()`는 `<option>` 태그에 조건부로 `selected` 속성을 추가할 때 사용한다.
 
 ## PHP & Laravel
 
@@ -32,6 +34,27 @@
 -   `compact()` 함수는 변수 이름을 문자열로 받아, 그 이름과 동일한 키와 값을 가진 연관 배열(associative array)을 만들어 반환한다.
 
 -   컨트롤러 액션 메소드의 파라미터에 **모델 클래스**로 **타입 힌트**를 설정(`Customer $customer`)하면, Laravel이 URL에 입력된 동적인 값(예: id)을 활용해 해당 모델의 인스턴스를 찾아서 자동으로 할당해주는 '**라우트 모델 바인딩(Route Model Binding)**'이 발생한다.
+
+### 리퀘스트
+
+1. `Request (Illuminate\Http\Request)` 클래스
+
+-   유저의 요청(리퀘스트)을 처리하기 위한 클래스.
+-   현재의 모든 HTTP 요청 정보(GET, POST, 파일, 헤더 등)를 담고 있다.
+-   `$request->input('key')`: GET(쿼리 스트링), POST(리퀘스트 바디) 데이터를 가져오는 메소드로, 가장 권장되는 방식이다.
+    -   간단하게 `$request->key`를 사용하는 경우도 많다.
+-   `$request->query('key')`: GET(쿼리 스트링) 데이터만 가져온다.
+-   `$request->post('key')`: POST(리퀘스트 바디) 데이터만 가져온다.
+    -   최신 버전의 Laravel(11+)에서는'타입 세이프(type-safe) 메소드'의 사용을 권장한다.
+    -   `$request->string('key')`, `$request->integer('key')`, `$request->boolean('key')` 등
+-   `$request->all()`: GET, POST 데이터를 모두 배열로 가져온다.
+
+2. `FormRequest (Illuminate\Foundation\Http\FormRequest)` 클래스
+
+-   `php artisan make:request <request-name>` 커맨드를 통해 생성한 확장 클래스.
+-   유효성 검사(Validation)와 권한 검사(Authorization)를 컨트롤러에서 분리한다.
+-   `FormRequest::rules()`: 밸리데이션 규칙을 정의한다.
+-   `FormRequest::authorize()`: 이 요청을 수행할 권한이 있는지 검사한다.
 
 ## 커맨드
 

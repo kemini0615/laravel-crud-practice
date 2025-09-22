@@ -14,12 +14,20 @@ class CustomerController extends Controller
      */
     public function index(Request $request)
     {
+        if ($request->has('order') && $request->order == 'asc') {
+            $order = 'ASC';
+        } else {
+            $order = 'DESC';
+        }
+
         $customers = Customer::when($request->has('keyword'), function ($query) use ($request) {
             $query->where('first_name', 'LIKE', "%$request->keyword%")
                 ->orWhere('last_name', 'LIKE', "%$request->keyword%")
                 ->orWhere('phone', 'LIKE', "%$request->keyword%")
                 ->orWhere('email', 'LIKE', "%$request->keyword%");
-        })->get();
+        })
+            ->orderBy('id', $order)
+            ->get();
 
         return view('customer.index', compact('customers'));
     }
